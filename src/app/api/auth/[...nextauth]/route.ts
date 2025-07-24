@@ -31,6 +31,10 @@ const handler = NextAuth({
           .collection("users")
           .findOne({ email: credentials?.email });
 
+          //if specific email and password , redirect to admin
+            //page for admin ---crud job post. 
+          //else redirect to users.
+
         if (!user || !user.hashedPassword) return null;
 
         const isValid = await compare(credentials!.password, user.hashedPassword);

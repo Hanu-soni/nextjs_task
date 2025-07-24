@@ -19,7 +19,7 @@ export default function RegisterPage() {
     });
 
     if (res.ok) {
-      router.push("/auth/signin");
+      router.push("/signin");
     } else {
       const data = await res.json();
       setError(data.error);

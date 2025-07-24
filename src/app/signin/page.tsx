@@ -1,20 +1,38 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
  import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function SignIn() {
+   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleCredentialsLogin = async () => {
-    await signIn("credentials", {
+  
+  let response=  await signIn("credentials", {
       email,
       password,
-      callbackUrl: "/dashboard",
+      redirect:false
     });
+
+
+   if(response?.ok){
+     if(email==='admin101@gmail.com'){
+      sessionStorage.setItem('role','admin');
+      router.push('/dashboards')
+      toast.success('logged in success')
+    }
+    else{   
+      router.push('/dashboards')
+      sessionStorage.setItem('role','user');   
+    }
+   }
+    //console.log(session,".......18")
   };
 
   return (
